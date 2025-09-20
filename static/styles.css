@@ -1,7 +1,7 @@
 body {
     font-family: 'Inter', serif;
     background-color: #e0e0e0;
-    background: linear-gradient(90deg, hsla(265, 53%, 29%, 1) 0%, hsla(24, 93%, 73%, 1) 100%);
+    background-image: url("/static/assets/background.png");
     background-size: cover;
     background-position: center;
     background-repeat: repeat;
@@ -16,6 +16,8 @@ body {
 #typewriter {
     display: inline;
 }
+
+/* index.html elements */
 
 .container {
     background-color: #fff;
@@ -42,7 +44,7 @@ body {
 }
 
 header {
-    background: hsla(265, 53%, 29%, 1);
+    background: rgba(0, 59, 136);
     color: #FCC7A4;
     padding: 20px;
     text-align: center;
@@ -53,31 +55,33 @@ main {
 }
 
 .upload {
-    background: #FCC7A4;
+    background: #fff;
 }
 .upload-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: hsla(265, 53%, 29%, 1);
+    color: rgba(0, 59, 136);
 }
 
 .drop-zone {
-    border: 2px dashed hsla(265, 53%, 29%, 1);
+    border: 2px dashed rgba(0, 59, 136);
     border-radius: 4px;
     padding: 20px;
     text-align: center;
     cursor: pointer;
     margin-bottom: 10px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .drop-zone:hover {
     background-color: hsla(265, 53%, 29%, 0.1);
+    transition: background-color 0.3s ease;
 }
 
 .drop-zone.drag-over {
     background-color: hsla(265, 53%, 29%, 0.1);
+    transition: background-color 0.3s ease;
 }
 
 #fileInput {
@@ -91,7 +95,7 @@ main {
 }
 
 #uploadButton {
-    background-color: hsla(265, 53%, 29%, 1);
+    background-color: rgba(0, 59, 136);
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -109,10 +113,132 @@ main {
 }
 
 #uploadButton:hover {
-    background-color: hsla(265, 53%, 39%, 1);
+    background-color: rgba(0, 78, 189);
+    transition: background-color 0.3s ease;
 }
 
 .upload-status {
     margin-top: 20px;
     text-align: center;
+}
+
+/* chat.html elements */
+
+.chat-container {
+    width: 90%;
+    max-width: 800px;
+    height: 90vh;
+    background-color: var(--terminal-color);
+    border-radius: 10px;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.chat-header span {
+    color: rgba(152, 195, 121);
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 80%;
+    line-height: 1.5;
+    animation: fadeIn 0.3s ease;
+}
+
+.message.user {
+    background-color: var(--user-color);
+    color: #000;
+    align-self: flex-end;
+    border-bottom-right-radius: 0;
+}
+
+.message.gemini {
+    background-color: var(--gemini-color);
+    color: #000;
+    align-self: flex-start;
+    border-bottom-left-radius: 0;
+}
+        
+.message.gemini.typing {
+    font-style: italic;
+    color: var(--text-color);
+    background-color: transparent;
+}
+
+.chat-input-form {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#userInput {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--input-color);
+    border-radius: 5px;
+    background-color: #333;
+    color: var(--text-color);
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#userInput:focus {
+    border-color: var(--user-color);
+}
+
+#sendButton {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--user-color);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#sendButton:hover {
+    background-color: #a3e3fb;
+}
+        
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom Scrollbar */
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+.chat-messages::-webkit-scrollbar-track {
+    background: var(--terminal-color);
+}
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: var(--input-color);
+    border-radius: 10px;
+    border: 2px solid var(--terminal-color);
 }

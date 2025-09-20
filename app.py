@@ -1,7 +1,8 @@
+
 from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory
 import os, shutil, json, webbrowser
 from datetime import datetime
-from google import gensai
+from google import genai
 from dotenv import load_dotenv
 
 # Flask app configuration
@@ -74,3 +75,8 @@ def upload_file():
 
     return redirect(request.url) # return to prev page
 
+if __name__ == '__main__':
+    ensure_folders_exist()
+    clear_upload_folder()
+    webbrowser.open(URL)
+    app.run(debug=True, host="0.0.0.0")

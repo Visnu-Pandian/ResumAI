@@ -13,11 +13,11 @@
     <!-- Resume submission portal-->
     <div class="container" id="upload-container">
         <header>
-            <h1 id="typewriter"><h1>
+            <h1 id="typewriter"></h1>
             </header>
             <main class="upload">
                 <div class="upload-section">
-                    <div id="dropZone", class="drop-zone">
+                    <div id="dropZone" class="drop-zone">
                         <p>Drag and drop your resume here or click to upload file!</p>
                         <input type="file" id="fileInput" accept="application/pdf,application/msword,.docx">
                     </div>
@@ -28,8 +28,8 @@
             </main>
         </div>
 
-        // Interactive listener
         <script>
+        // Interactive listener
         document.addEventListener('DOMContentLoaded', () => {
             const fileInput = document.getElementById('fileInput');
             const dropZone = document.getElementById('dropZone');
@@ -73,15 +73,22 @@
             }
 
             // Add file to UPLOAD
+            const ALLOWED_EXTENSIONS = new Set(['pdf', 'doc', 'docx']);
+
             function addFile(file) {
-                if (file && file.name.match(/\.(pdf|doc|docx)$/i)) {
-                    fileToUpload = file;
-                    fileList.innerHTML = ''; // Clear previous file list
-                    const listItem = document.createElement('div');
-                    listItem.textContent = file.name;
-                    fileList.appendChild(listItem);
-                } else {
-                    alert('Only pdf, doc and docx files are allowed.');
+                if (file) {
+                    const fileExtension = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
+                    if (ALLOWED_EXTENSIONS.has(fileExtension)) {
+                        fileToUpload = file;
+                        fileList.innerHTML = ''; // Clear previous file list
+                        const listItem = document.createElement('div');
+                        listItem.textContent = file.name;
+                        fileList.appendChild(listItem);
+                    } else {
+                        alert('Only pdf, doc and docx files are allowed.');
+                        fileList.innerHTML = '';
+                        fileToUpload = null;
+                    }
                 }
             }
 
@@ -97,14 +104,14 @@
 
                 // Send file to server
                 try {
-                    const response = await fetch('/upload', {
+                    const response = await fetch('/uploads', {
                         method: 'POST',
                         body: formData,
                     });
 
                     if (response.ok) {
                         const filename = await response.text();
-                        window.location.href = '/tasks/${filename}';
+                        window.location.href = `/tasks/${filename}`;
                         uploadStatus.textContent = 'File uploaded!';
                     } else {
                         uploadStatus.textContent = 'File upload failed.';
@@ -115,9 +122,8 @@
             }
 
             new Typed('#typewriter', {
-                strings: ['resumAI'],
-                typeSpeed: 150,
-                backSpeed: 75,
+                strings: ['ResumAI<br>Your resume advisor!'],
+                typeSpeed: 80,
                 loop: false
             });
         });

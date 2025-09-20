@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Advisor Chat</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https:/fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Real-Time Chat with <span>Gemini<span><!-- color this -->
+        </div>
+        <div class="chat-messages" id="chatMessages">
+                <!-- Chat messages will be appended here -->
+        </div>
+        <form class="chat-input-form" id="chatForm">
+            <input type="text" id="userInput" placeholder="Type your message here..." autocomplete="off">
+            <button type="submit" id="sendButton">Send</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMConentLoaded', () => {
+            const chatMessages = document.getElementById('chatMessages');
+            const chatForm = document.getElementById('chatForm');
+            const userInput = document.getElementById('userInput');
+
+            // Gemini API configuration
+            const API_KEY = ""
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+
+            // Add a conditional welcome message depending on whether the user passed a file to the previous webpage or used the skip button 
+
+            chatForm.addEventListener('submit', async (e) => {
+                event.preventDefault();
+                const userMessage = userInput.value.trim();
+
+                if (userMessage) {
+                    addMessage('user', userMessage);
+                    userInput.value='';
+                    await getGeminiResponse(userMessage);
+                }
+            });
+
+            /**
+            * Appends a new message to the chat display
+            * @param {string} sender - 'user' or 'gemini'
+            * @param {string} text - The message content
+            * @param {string} type - Optional type e.g. 'Typing...'
+            */
+
+            function addMessage(sender, text, type='') {
+                const messageElement = document.createElement('div');
+                mesageElement.classList.add('message', sender);
+                if (type) {
+                    messageElement.classList.add(type);
+                }
+                messageElement.textContent = text;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                return messageElement;
+            }
+
+            /**
+            * Fetches a response from the Gemini API.
+            * @param {string} prompt - The user's input message.
+            */
+
+            async function getGeminiResponse(prompt) {
+                const typingIndicator = addMessage('gemini', 'Typing...', 'typing');
+
+                try {
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                    };
+                }
+            }
+        });
