@@ -1,0 +1,118 @@
+body {
+    font-family: 'Inter', serif;
+    background-color: #e0e0e0;
+    background: linear-gradient(90deg, hsla(265, 53%, 29%, 1) 0%, hsla(24, 93%, 73%, 1) 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#typewriter {
+    display: inline;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 400px;
+    max-width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 400px;
+    max-width: 100%;
+}
+
+header {
+    background: hsla(265, 53%, 29%, 1);
+    color: #FCC7A4;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+.upload {
+    background: #FCC7A4;
+}
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: hsla(265, 53%, 29%, 1);
+}
+
+.drop-zone {
+    border: 2px dashed hsla(265, 53%, 29%, 1);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+}
+
+.drop-zone:hover {
+    background-color: hsla(265, 53%, 29%, 0.1);
+}
+
+.drop-zone.drag-over {
+    background-color: hsla(265, 53%, 29%, 0.1);
+}
+
+#fileInput {
+    display: none;
+}
+
+.file-list {
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+#uploadButton {
+    background-color: hsla(265, 53%, 29%, 1);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#uploadButton img {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 5px;
+    left: 4px;
+}
+
+#uploadButton:hover {
+    background-color: hsla(265, 53%, 39%, 1);
+}
+
+.upload-status {
+    margin-top: 20px;
+    text-align: center;
+}

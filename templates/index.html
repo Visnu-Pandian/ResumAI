@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+</head>
+<body>
+    <!-- Resume submission portal-->
+    <div class="container" id="upload-container">
+        <header>
+            <h1 id="typewriter"><h1>
+            </header>
+            <main class="upload">
+                <div class="upload-section">
+                    <div id="dropZone", class="drop-zone">
+                        <p>Drag and drop your resume here or click to upload file!</p>
+                        <input type="file" id="fileInput" accept="application/pdf,application/msword,.docx">
+                    </div>
+                    <div id="fileList" class="file-list"></div>
+                    <button id="uploadButton"><b>Submit</b><img src="/static/assets/clouduploadicon.png" alt="Logo"></button>
+                </div>
+                <div id="uploadStatus" class="upload-status"></div>
+            </main>
+        </div>
+
+        // Interactive listener
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('fileInput');
+            const dropZone = document.getElementById('dropZone');
+            const fileList = document.getElementById('fileList');
+            const uploadButton = document.getElementById('uploadButton');
+            const uploadStatus = document.getElementById('uploadStatus');
+
+            let fileToUpload = null;
+
+            fileInput.addEventListener('change', handleFileSelect);
+            dropZone.addEventListener('dragover', handleDragOver);
+            dropZone.addEventListener('dragleave', handleDragLeave);
+            dropZone.addEventListener('drop', handleFileDrop);
+            dropZone.addEventListener('click', () => fileInput.click());
+            uploadButton.addEventListener('click', uploadFile);
+
+            // Only last file to be added will be uploaded
+            function handleFileSelect(event) {
+                const files = event.target.files;
+                addFile(files[0]);
+            }
+
+            // Drag and drop file handling
+            function handleDragOver(event) {
+                event.preventDefault();
+                dropZone.classList.add('drag-over');
+            }
+
+            // Drag and drop file handling
+            function handleDragLeave(event) {
+                event.preventDefault();
+                dropZone.classList.remove('drag-over');
+            }
+
+            // Drag and drop file handling
+            function handleFileDrop(event) {
+                event.preventDefault();
+                dropZone.classList.remove('drag-over');
+                const files = event.dataTransfer.files;
+                addFile(files[0]);
+            }
+
+            // Add file to UPLOAD
+            function addFile(file) {
+                if (file && file.name.match(/\.(pdf|doc|docx)$/i)) {
+                    fileToUpload = file;
+                    fileList.innerHTML = ''; // Clear previous file list
+                    const listItem = document.createElement('div');
+                    listItem.textContent = file.name;
+                    fileList.appendChild(listItem);
+                } else {
+                    alert('Only pdf, doc and docx files are allowed.');
+                }
+            }
+
+            // Upload file to server
+            async function uploadFile() {
+                if (!fileToUpload) {
+                    alert('No file selected.');
+                    return;
+                }
+            
+                const formData = new FormData();
+                formData.append('file', fileToUpload);
+
+                // Send file to server
+                try {
+                    const response = await fetch('/upload', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        const filename = await response.text();
+                        window.location.href = '/tasks/${filename}';
+                        uploadStatus.textContent = 'File uploaded!';
+                    } else {
+                        uploadStatus.textContent = 'File upload failed.';
+                    }
+                } catch (error) {
+                    uploadStatus.textContent = 'Error uploading file.';
+                }
+            }
+
+            new Typed('#typewriter', {
+                strings: ['resumAI'],
+                typeSpeed: 150,
+                backSpeed: 75,
+                loop: false
+            });
+        });
+    </script>
+</body>
+</html>
