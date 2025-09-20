@@ -1,9 +1,12 @@
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory
-import os, shutil, json, webbrowser
+import os, shutil, json, webbrowser, requests
 from datetime import datetime
 from google import genai
 from dotenv import load_dotenv
+
+load_dotenv()
+API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Flask app configuration
 app = Flask(__name__)
@@ -12,7 +15,7 @@ app = Flask(__name__)
 
 app.config['DOWNLOAD_FOLDER'] = 'downloads'
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['ALLOWED_EXTENSIONS'] = {'.pdf', '.doc', '.docx'}
+app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'doc', 'docx'}
 app.config['JSON_FOLDER'] = 'json'
 
 # URL of project
@@ -52,31 +55,46 @@ def ensure_folders_exist():
 
 # Add custom helpers here
 
+# --- Routes ---
+
 # Render frontend html page
 @app.route('/')
 def index():
-        return render_template('index.html')
+    """Renders the main webpage."""
+    return render_template('index.html')
+
+@app.route('/chat')
+def char():
+    """Renders the Gemini chat page."""
+    resume_uploaded = request.args.get('resume', 'false')
+    return render_template('chat.html', resume=resume_uploaded)
 
 # Validate and upload resume
-@app.route('/')
+@app.route('/upload', methods=['POST'])
 def upload_file():
+    """Handles the file upload."""
     if 'file' not in request.files:
-        return redirect(request.url) # return to prev page
-    file = request.files['files']
+        return jsonify({'success': False, 'error':'No file part in the request.'}), 400
+    
+    file = request.files['file']
+    
     if file.filename == '':
-        return redirect(request.url) # return to prev page
+        return jsonify({'success': False, 'error':'No file selected'}), 400
     
     # Validate resume format
     if file and allowed_file(file.filename):
         
         filename = file.filename
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return filename # move to next page
+        return jsonify({'success':True})
+    else:
+        return jsonify({'success': False, 'error': 'File type not allowed'}), 400
 
-    return redirect(request.url) # return to prev page
+# --- Main Execution ---
 
 if __name__ == '__main__':
     ensure_folders_exist()
     clear_upload_folder()
+    
     webbrowser.open(URL)
     app.run(debug=True, host="0.0.0.0")

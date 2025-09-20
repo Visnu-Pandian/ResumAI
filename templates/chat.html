@@ -29,10 +29,18 @@
             const userInput = document.getElementById('userInput');
 
             // Gemini API configuration
-            const API_KEY = ""
+            const API_KEY = "" // IMPORTANT: ADD GEMINI API KEY VIA ENV
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
 
             // Add a conditional welcome message depending on whether the user passed a file to the previous webpage or used the skip button 
+            const urlParams = new URLSearchParams(window.location.search);
+            const resumeUploaded = urlParams.get('resume');
+
+            if (resumeUploaded === 'true') {
+                addMessage('gemini', 'Thanks for uploading your resume! How can I help you improve it or prepare for interviews?');
+            } else {
+                addMessage('gemini', 'Welcome! You can ask me anything about career advice. How can I assist you today?')
+            }
 
             chatForm.addEventListener('submit', async (e) => {
                 event.preventDefault();
@@ -70,12 +78,49 @@
             */
 
             async function getGeminiResponse(prompt) {
+                if (!API_KEY) {
+                    addMessage('gemini', 'Error: API Key is missing. Please add your Gemini API key in chat.html.');
+                    return;
+                }
+                
                 const typingIndicator = addMessage('gemini', 'Typing...', 'typing');
 
                 try {
                     const payload = {
                         contents: [{ parts: [{ text: prompt }] }],
                     };
+
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type:': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API Error: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+
+                    chatMessages.removeChild(typingIndicator);
+
+                    const candidate = result.candidates?.[0];
+                    if (candidate && candidate.content?.parts?[0]?.text) {
+                        addMesssage('gemini', candidate.content.parts[0].text);
+                    } else {
+                        addMessage('gemini', 'Sorry, I could not process that. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error fetching Gemini response:', error);
+                    if (typingIndicator.parentNode) {
+                        chatMessages.removeChild(typingIndicator);
+                    }
+                    addMessage('gemini', `An error occurred:${error.message} Please check the console for details.`);
                 }
             }
         });
+    </script>
+</body>
+</html>
