@@ -35,8 +35,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
     background-color: #fff;
+    border-radius: 8px;
+    border-color:rgba(193, 143, 50, 1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 400px;
@@ -98,21 +99,48 @@ main {
     background-color: rgba(0, 59, 136);
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 12px 25px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 16px;
+    font-weight: bold;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
 #uploadButton img {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     position: relative;
     top: 5px;
     left: 4px;
 }
 
 #uploadButton:hover {
+    background-color: rgba(0, 78, 189);
+    transition: background-color 0.3s ease;
+}
+
+.skipButton {
+    background-color: rgba(0, 59, 136);
+    color: #fff;
+    border: none;
+    padding: 12px 25px ;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size:  16px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.skipButton.relative {
+    position: relative;
+    top: 10px;
+}
+
+.skipButton:hover {
     background-color: rgba(0, 78, 189);
     transition: background-color 0.3s ease;
 }

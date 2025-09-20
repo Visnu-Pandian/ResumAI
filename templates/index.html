@@ -22,7 +22,8 @@
                         <input type="file" id="fileInput" accept="application/pdf,application/msword,.docx">
                     </div>
                     <div id="fileList" class="file-list"></div>
-                    <button id="uploadButton"><b>Submit</b><img src="/static/assets/clouduploadicon.png" alt="Logo"></button>
+                    <button id="uploadButton" class="uploadButton"><b>Submit</b><img src="/static/assets/clouduploadicon.png" alt="Logo"></button>
+                    <button id="skipButton" class="skipButton"><b>Skip to Career Advisor</b></button>
                 </div>
                 <div id="uploadStatus" class="upload-status"></div>
             </main>
@@ -35,6 +36,7 @@
             const dropZone = document.getElementById('dropZone');
             const fileList = document.getElementById('fileList');
             const uploadButton = document.getElementById('uploadButton');
+            const skipButton = document.getElementById('skipButton');
             const uploadStatus = document.getElementById('uploadStatus');
 
             let fileToUpload = null;
@@ -45,6 +47,11 @@
             dropZone.addEventListener('drop', handleFileDrop);
             dropZone.addEventListener('click', () => fileInput.click());
             uploadButton.addEventListener('click', uploadFile);
+            
+            // Skipping to the chat without uploading resume
+            skipButton.addEventListener('click', () => {
+                window.location.href = `/chat?resume=false`;
+            });
 
             // Only last file to be added will be uploaded
             function handleFileSelect(event) {

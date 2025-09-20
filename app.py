@@ -5,8 +5,8 @@ from datetime import datetime
 from google import genai
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
-API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Flask app configuration
 app = Flask(__name__)
@@ -17,6 +17,7 @@ app.config['DOWNLOAD_FOLDER'] = 'downloads'
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'doc', 'docx'}
 app.config['JSON_FOLDER'] = 'json'
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # URL of project
 # URL = "http://resum.ai/"
