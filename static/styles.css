@@ -156,25 +156,26 @@ main {
     width: 90%;
     max-width: 800px;
     height: 90vh;
-    background-color: var(--terminal-color);
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     border: 2px solid var(--border-color);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(0, 26, 60, 0.5);
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
 .chat-header {
+    color: rgba(255, 255, 255, 1);
     padding: 15px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 59, 136, 0.8);
     border-bottom: 1px solid var(--border-color);
     text-align: center;
     font-weight: bold;
     font-size: 1.2em;
 }
 .chat-header span {
-    color: rgba(152, 195, 121);
+    color: rgb(120, 244, 196);
 }
 
 .chat-messages {
@@ -196,7 +197,7 @@ main {
 
 .message.user {
     background-color: var(--user-color);
-    color: #000;
+    color: #000000;
     align-self: flex-end;
     border-bottom-right-radius: 0;
 }
@@ -215,10 +216,11 @@ main {
 }
 
 .chat-input-form {
+    color: rgb(0, 0, 0);
     display: flex;
     padding: 15px;
     border-top: 1px solid var(--border-color);
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 59, 136, 0.8);
 }
 
 #userInput {
@@ -226,7 +228,7 @@ main {
     padding: 10px 15px;
     border: 1px solid var(--input-color);
     border-radius: 5px;
-    background-color: #333;
+    background-color: rgba(255, 255, 255, 1);
     color: var(--text-color);
     font-size: 1em;
     outline: none;
@@ -243,7 +245,7 @@ main {
     border: none;
     border-radius: 5px;
     background-color: var(--user-color);
-    color: #000;
+    color: #ffffff;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
