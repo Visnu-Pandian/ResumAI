@@ -60,15 +60,17 @@ Follow these instructions to set up and run the backend services locally.
 git clone []()
 
 # 2. Enter project path
-cd your-repo-name
+cd ResumAI
 
 # 3. Install back end dependencies
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
+# 4. Install required packages
+pip install -r requirements.txt
 
-# 4. Install front end dependencies
 ```
 
-3. Environment Variables
 
 4. Reunning the Application
 
