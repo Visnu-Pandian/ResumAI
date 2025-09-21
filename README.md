@@ -151,6 +151,6 @@ The alt-backend operates in a three-stage pipeline. Run the scripts in this orde
 ## 🔥 Team Members
 
 - Visnu Pandian - Full stack [github.com/Visnu-Pandian](github.com/Visnu-Pandian)
-- Irisin - Back end and AI pipeline developer - [github.com/Irisiiin](github.com/Irisiiin)
+- Irisin Yu - Back end and AI pipeline developer - [github.com/Irisiiin](github.com/Irisiiin)
 - Ben Burris - Front end [github.com/bmburris05](github.com/bmburris05)
 - Lexus Workman - Front end [github.com/cranberrymatchafrog](github.com/cranberrymatchafrog)
