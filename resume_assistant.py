@@ -7,7 +7,7 @@ import json
 import os
 import time
 import logging
-from detenv import load_dotenv
+from dotenv import load_dotenv
 
 load_dotenv()
 
