@@ -58,6 +58,23 @@ def ensure_folders_exist():
     if not os.path.exists(app.config['DOWNLOAD_FOLDER']):
         os.makedirs(app.config['DOWNLOAD_FOLDER'])
 
+# Read uploaded resume
+def read_resume(filepath):
+    """Extract text from uploaded resume (pdf/docx)"""
+    
+    ext = filepath.rsplit('.',1)[-1].lower()
+    if (ext == "pdf"):
+        text = ""
+        with fitz.open(filepath) as doc:
+            for page in doc:
+                text += page.get_text()
+        return text
+    elif (ext == "docx"):
+        doc = docx.Document(filepath)
+        return "\n".join(p.text for p in doc.paragraphs)
+    else:
+        raise ValueError("Unsupported file format")
+
 # Add custom helpers here
 
 # --- Routes ---
