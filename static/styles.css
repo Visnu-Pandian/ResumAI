@@ -168,8 +168,9 @@ main {
 /* chat.html elements */
 
 .chat-container {
-    width: 90%;
-    max-width: 800px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
     height: 90vh;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
@@ -208,6 +209,7 @@ main {
     max-width: 80%;
     line-height: 1.5;
     animation: fadeIn 0.3s ease;
+    white-space: pre-wrap;
 }
 
 .message.user {
@@ -276,6 +278,42 @@ main {
     text-align: center;
     font-weight: bold;
     padding-bottom: 12px;
+}
+
+.download-buttons {
+    background-color: var(--primary-brand-color-clearer);
+    color: var(--text-color);
+    text-align: center;
+    padding-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.download-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-brand-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    background-color: var(--primary-brand-color-clearer);
+}
+
+.download-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+pre, code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: auto;
+    max-width: 100%;
+    display: block;
 }
 
 @keyframes fadeIn {

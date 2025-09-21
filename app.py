@@ -27,6 +27,14 @@ if GEMINI_API_KEY:
 else:
     print("Warning: GEMINI_API_KEY not found in environment variables.")
 
+# Configure Jake's template
+TEMPLATE_PATH = os.path.join("jakes_template.tex")
+try:
+    with open(TEMPLATE_PATH, 'r', encoding="utf-8") as f:
+        template = f.read()
+except FileNotFoundError:
+    template = "% Template file missing. Please add jakes_template.tex"
+
 # Configure allowed filetypes
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
@@ -130,6 +138,48 @@ def handle_chat():
         print(f"Error calling Gemini API: {e}")
         return jsonify({'error':'An error occurred while fetching the response from Gemini.'}), 500
 
+@app.route('/api/parse_resume', methods=['POST'])
+def parse_resume():
+    """Reads the latest uploaded resume and asks Gemini to generate a LaTeX resume using Jake's template."""
+    
+        # Select the most recent uploaded file
+    uploads = os.listdir(app.config['UPLOAD_FOLDER'])
+    if not uploads:
+        return jsonify({'error':'No resume found in uploads folder'}), 400
+        
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], uploads[-1])
+        
+    resume_text = read_resume(filepath)
+    
+    prompt = f"""
+    You are a professional resume writer.
+    The following is the raw text of a candidate's resume:
+    ---
+    {resume_text}
+    ---
+    Rewrite this resume in **LaTeX** using Jake's modern resume template, which is provided below.
+    Keep all details professional and concise. Output onlt valid LaTeX code that the user can copy into Overleaf and compile.
+    
+    {template}
+    """
+
+    try:
+        model = genai.GenerativeModel('gemini-2.5-pro')
+        response = model.generate_content(prompt)
+        
+        latex_code = response.text if response and response.text else ""
+        
+        latex_code = latex_code.strip()
+        if latex_code.startswith("```"):
+            latex_code = "\n".join(latex_code.splitlines()[1:])
+        if latex_code.endswith("```"):
+            latex_code = "\n".join(latex_code.splitlines()[:-1])
+
+        return jsonify({'latex_resume': latex_code})
+    except Exception as e:
+        print(f"Error in parsing resume: {e}")
+        return jsonify({'error':'Failed to parse resume'}), 500
+    
 # --- Main Execution ---
 
 if __name__ == '__main__':

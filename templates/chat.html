@@ -23,6 +23,10 @@
         <div class="chat-warning">
             Chats with AI do not have persistent memory.
         </div>
+
+        <div class="download-buttons">
+            <button id="downloadTexBtn" class="download-btn" disabled>Download LaTeX (.tex)</button>
+        </div>
     </div>
 
     <script type="module">
@@ -31,17 +35,43 @@
             const chatMessages = document.getElementById('chatMessages');
             const chatForm = document.getElementById('chatForm');
             const userInput = document.getElementById('userInput');
-            
-            //addMessage('user', 'This is a test message.');
+            const texBtn = document.getElementById('downloadTexBtn');
 
-            // Gemini API configuration
+            let latestLatex = "";
 
             // Add a conditional welcome message depending on whether the user passed a file to the previous webpage or used the skip button 
             const urlParams = new URLSearchParams(window.location.search);
             const resumeUploaded = urlParams.get('resume');
 
             if (resumeUploaded === 'true') {
-                addMessage('gemini', 'Thanks for uploading your resume! How can I help you improve it or prepare for interviews?');
+                addMessage('gemini', 'Thanks for uploading your resume! I\'m creating a new LaTeX version using Jake\'s template...');
+
+                // Call backend to generate LaTeX
+                (async () => {
+                    const typingIndicator = addMessage('gemini', 'Typing...', 'typing');
+                    try {
+                        const response = await fetch('/api/parse_resume', {
+                            method: 'POST'
+                        });
+
+                        const data = await response.json();
+                        typingIndicator.remove();
+
+                        if (response.ok && data.latex_resume) {
+                            latestLatex = data.latex_resume;
+                            addMessage('gemini', `<pre><code>${escapeHtml(data.latex_resume)}</code></pre>`);
+
+                            // Enabling download buttons
+                            texBtn.disabled = false;
+
+                        } else {
+                            addMessage('gemini', `Error: ${data.error || 'Could not generate LaTeX resume.'}`);
+                        }
+                    } catch (err) {
+                        typingIndicator.remove();
+                        addMessage('gemini', `Error connecting to server while generating resume: ${err}`);
+                    }
+                })();
             } else {
                 addMessage('gemini', 'Welcome! I noticed you have not uploaded your resume. Please tell me more about yourself so I can help you.')
             }
@@ -58,7 +88,7 @@
                     const typingIndicator = addMessage('gemini', 'Typing...', 'typing');
 
                     try {
-                        const response = await fetch('api/chat', {
+                        const response = await fetch('/api/chat', {
                             method: 'POST',
                             headers: {
                                 'Content-Type':'application/json'
@@ -82,12 +112,16 @@
                 }
             });
 
-            /**
-            * Appends a new message to the chat display
-            * @param {string} sender - 'user' or 'gemini'
-            * @param {string} text - The message content
-            * @param {string} type - Optional type e.g. 'Typing...'
-            */
+            texBtn.addEventListener('click', () => {
+                if (!latestLatex) return;
+                const blob = new Blob([latestLatex], { type: 'text/x-tex'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'resume.tex';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
 
             function addMessage(sender, text, type='') {
                 const messageElement = document.createElement('div');
@@ -99,6 +133,16 @@
                 chatMessages.appendChild(messageElement);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
                 return messageElement;
+            }
+
+            // Function to stop HTML formatting from breaking the chat.
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
             }
         });
     </script>

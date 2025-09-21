@@ -19,7 +19,7 @@
                 <div class="upload-section">
                     <div id="dropZone" class="drop-zone">
                         <p>Drag and drop your resume here or click to upload file!</p>
-                        <input type="file" id="fileInput" accept="application/pdf,application/msword,.docx">
+                        <input type="file" id="fileInput" accept="application/pdf,.docx">
                     </div>
                     <div id="fileList" class="file-list"></div>
                     <button id="uploadButton" class="uploadButton"><b>Submit</b><img src="/static/assets/clouduploadicon.png" alt="Logo"></button>
@@ -132,6 +132,8 @@
 
                     } else {
                         uploadStatus.textContent = result.error || 'File upload failed.';
+                        fileToUpload = null;
+                        fileList.innerHTML = '';
                     }
                 } catch (error) {
                     console.error('Error:', error);
