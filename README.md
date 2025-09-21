@@ -114,7 +114,7 @@ The alt-backend operates in a three-stage pipeline. Run the scripts in this orde
 
 - Problem: Ensuring AI Accuracy and Persona. An LLM can be forgetful or overly creative. We needed our AI to be a focused, reliable coach.
 
-    - Solution: We engineered a detailed system prompt to establish the AI's persona. To guarantee data integrity, we designed a pipeline where each conversational turn is summarized and saved to a versioned JSON file. This prevents the AI from "hallucinating" and keeps the user's data persistent and accurate.
+    - Solution: Irisin engineered a detailed system prompt to establish the AI's persona. To guarantee data integrity, we designed a pipeline where each conversational turn is summarized and saved to a versioned JSON file. This prevents the AI from "hallucinating" and keeps the user's data persistent and accurate.
 
 - Problem: Unreliable Direct PDF Generation. Directly asking an LLM to generate complex formats like LaTeX or styled HTML/CSS often results in syntax errors.
 
@@ -151,6 +151,6 @@ The alt-backend operates in a three-stage pipeline. Run the scripts in this orde
 ## 🔥 Team Members
 
 - Visnu Pandian - Full stack [github.com/Visnu-Pandian](github.com/Visnu-Pandian)
-- Irisin - Back end - [github.com/Irisiiin](github.com/Irisiiin)
+- Irisin - Back end and AI pipeline developer - [github.com/Irisiiin](github.com/Irisiiin)
 - Ben Burris - Front end [github.com/bmburris05](github.com/bmburris05)
 - Lexus Workman - Front end [github.com/cranberrymatchafrog](github.com/cranberrymatchafrog)
