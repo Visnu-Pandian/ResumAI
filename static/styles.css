@@ -6,7 +6,10 @@
     --gemini-color: rgba(100, 181, 246, 1);
     --input-color: rgba(74, 74, 74, 1);
     --primary-brand-color: rgba(0, 59, 136, 1);
+    --primary-brand-color-clearer: rgba(0, 59, 136, 0.8);
     --secondary-brand-color: rgba(193, 143, 50, 1);
+    --border-color: rgb(255, 255, 255);
+    --drop-zone-select-color: rgba(67, 35, 113, 0.1);
 }
 
 body {
@@ -47,18 +50,18 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
+    background-color: var(--text-color);
     border-radius: 8px;
-    border-color:rgba(193, 143, 50, 1);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-color: var(--secondary-brand-color);
+    box-shadow: 0 0 10px var(--terminal-color);
     overflow: hidden;
     width: 400px;
     max-width: 100%;
 }
 
 header {
-    background: rgba(0, 59, 136, 1);
-    color: #FCC7A4;
+    background: var(--primary-brand-color);
+
     padding: 20px;
     text-align: center;
 }
@@ -68,17 +71,17 @@ main {
 }
 
 .upload {
-    background: #fff;
+    background: var(--border-color);
 }
 .upload-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: rgba(0, 59, 136);
+    color: var(--primary-brand-color);
 }
 
 .drop-zone {
-    border: 2px dashed rgba(0, 59, 136);
+    border: 2px dashed var(--primary-brand-color);
     border-radius: 4px;
     padding: 20px;
     text-align: center;
@@ -88,12 +91,12 @@ main {
 }
 
 .drop-zone:hover {
-    background-color: hsla(265, 53%, 29%, 0.1);
+    background-color: var(--drop-zone-select-color);
     transition: background-color 0.3s ease;
 }
 
 .drop-zone.drag-over {
-    background-color: hsla(265, 53%, 29%, 0.1);
+    background-color: var(--drop-zone-select-color);
     transition: background-color 0.3s ease;
 }
 
@@ -108,8 +111,8 @@ main {
 }
 
 #uploadButton {
-    background-color: rgba(0, 59, 136);
-    color: #fff;
+    background-color: var(--primary-brand-color);
+    color: var(--border-color);
     border: none;
     padding: 12px 25px;
     border-radius: 8px;
@@ -130,13 +133,13 @@ main {
 }
 
 #uploadButton:hover {
-    background-color: rgba(0, 78, 189);
+    background-color: var(--primary-brand-color-clearer);
     transition: background-color 0.3s ease;
 }
 
 .skipButton {
-    background-color: rgba(0, 59, 136);
-    color: #fff;
+    background-color: var(--primary-brand-color);
+    color: var(--border-color);
     border: none;
     padding: 12px 25px ;
     border-radius: 8px;
@@ -153,7 +156,7 @@ main {
 }
 
 .skipButton:hover {
-    background-color: rgba(0, 78, 189);
+    background-color: var(--primary-brand-color-clearer);
     transition: background-color 0.3s ease;
 }
 
@@ -170,7 +173,7 @@ main {
     height: 90vh;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
-    border: 2px solid var(--border-color);
+    border: 0px solid var(--border-color);
     box-shadow: 0 0 20px rgba(0, 26, 60, 0.5);
     display: flex;
     flex-direction: column;
@@ -178,16 +181,16 @@ main {
 }
 
 .chat-header {
-    color: rgba(255, 255, 255, 1);
+    color: var(--border-color);
     padding: 15px;
-    background-color: rgba(0, 59, 136, 0.8);
+    background-color: var(--primary-brand-color-clearer);
     border-bottom: 1px solid var(--border-color);
     text-align: center;
     font-weight: bold;
     font-size: 1.2em;
 }
 .chat-header span {
-    color: rgb(120, 244, 196);
+    color: rgba(120, 244, 196, 1);
 }
 
 .chat-messages {
@@ -209,14 +212,14 @@ main {
 
 .message.user {
     background-color: var(--user-color);
-    color: #000000;
+    color: var(--terminal-color);
     align-self: flex-end;
     border-bottom-right-radius: 0;
 }
 
 .message.gemini {
     background-color: var(--gemini-color);
-    color: #000;
+    color: var(--terminal-color);
     align-self: flex-start;
     border-bottom-left-radius: 0;
 }
@@ -228,11 +231,11 @@ main {
 }
 
 .chat-input-form {
-    color: rgb(0, 0, 0);
+    color: var(--terminal-color);
     display: flex;
     padding: 15px;
     border-top: 1px solid var(--border-color);
-    background-color: rgba(0, 59, 136, 0.8);
+    background-color: var(--primary-brand-color-clearer);
 }
 
 #userInput {
@@ -240,8 +243,8 @@ main {
     padding: 10px 15px;
     border: 1px solid var(--input-color);
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 1);
-    color: var(--text-color);
+    background-color: var(--border-color);
+    color: var(--terminal-color);
     font-size: 1em;
     outline: none;
     transition: border-color 0.3s;
@@ -257,14 +260,14 @@ main {
     border: none;
     border-radius: 5px;
     background-color: var(--user-color);
-    color: #ffffff;
+    color: var(--border-color);
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 #sendButton:hover {
-    background-color: #a3e3fb;
+    background-color: rgba(163, 227, 251, 1);
 }
         
 @keyframes fadeIn {
