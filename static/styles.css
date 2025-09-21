@@ -226,7 +226,7 @@ main {
         
 .message.gemini.typing {
     font-style: italic;
-    color: var(--text-color);
+    color: var(--terminal-color);
     background-color: transparent;
 }
 

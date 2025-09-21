@@ -106,7 +106,7 @@ def handle_chat():
         return jsonify({'error': 'No message provided'}), 400
     
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-pro')
         response = model.generate_content(user_message)
         gemini_response = response.text
         return jsonify({'gemini_response': gemini_response})

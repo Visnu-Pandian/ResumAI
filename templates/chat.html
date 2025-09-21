@@ -92,7 +92,7 @@
                 if (type) {
                     messageElement.classList.add(type);
                 }
-                messageElement.textContent = text;
+                messageElement.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                 chatMessages.appendChild(messageElement);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
                 return messageElement;
