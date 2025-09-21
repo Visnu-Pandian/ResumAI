@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, jsonify
 import os, shutil, webbrowser
 import google.generativeai as genai

@@ -269,7 +269,15 @@ main {
 #sendButton:hover {
     background-color: rgba(163, 227, 251, 1);
 }
-        
+
+.chat-warning {
+    background-color: var(--primary-brand-color-clearer);
+    color: var(--text-color);
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 12px;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
