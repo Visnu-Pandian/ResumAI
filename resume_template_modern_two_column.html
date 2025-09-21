@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume - {{ basics.name }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            margin: 0;
+            /* --- MODIFIED: Reduced page margins --- */
+            padding: 0in;
+            line-height: 1.2;
+            color: #000;
+            background: #fff;
+            /* --- ADDED: Set a smaller base font size --- */
+            font-size: 11pt;
+        }
+
+        a {
+            text-decoration: underline;
+            color: inherit;
+        }
+
+        h1, h2, h3 {
+            margin: 0;
+        }
+
+        /* ---------- Heading ---------- */
+        .header {
+            text-align: center;
+            margin-bottom: 1em;
+        }
+
+        .header h1 {
+            /* --- MODIFIED: Slightly reduced header size for better proportion --- */
+            font-size: 2.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: normal;
+        }
+
+        .header .contact {
+            font-size: 0.9em; /* Adjusted slightly */
+        }
+
+        /* ---------- Sections ---------- */
+        section {
+            margin-bottom: 1em;
+        }
+
+        section h2 {
+             /* --- MODIFIED: Slightly reduced section title size --- */
+            font-size: 1.1em;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+            margin-bottom: 0.5em;
+        }
+
+        /* ---------- Subheadings ---------- */
+        .subheading {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.1em;
+            font-weight: bold;
+        }
+
+        .subheading .subinfo {
+            font-style: italic;
+            font-weight: normal;
+            font-size: 0.9em; /* Adjusted slightly */
+        }
+
+        /* ---------- Lists ---------- */
+        ul {
+            margin: 0 0 0.8em 0.15in;
+            padding-left: 0;
+            list-style-type: disc;
+        }
+
+        li {
+            margin-bottom: 0.2em;
+            font-size: 1em; /* Can be 1em to match body text */
+        }
+
+        /* ---------- Projects ---------- */
+        .project-title {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .project-subtitle {
+            font-style: italic;
+            font-size: 0.9em; /* Adjusted slightly */
+        }
+
+        /* ---------- Technical Skills ---------- */
+        .skills {
+            margin-left: 0.15in;
+            font-size: 1em; /* Can be 1em to match body text */
+        }
+
+        .skills b {
+            display: inline-block;
+            width: 130px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>{{ basics.name }}</h1>
+        <div class="contact">
+            {{ basics.location.address }}
+            {% if basics.phone %}<span class="separator"> | </span>{{ basics.phone }}{% endif %}
+            {% if basics.email %}<span class="separator"> | </span><a href="mailto:{{ basics.email }}">{{ basics.email }}</a>{% endif %}
+            {% if basics.website %}<span class="separator"> | </span><a href="http://{{ basics.website }}">{{ basics.website }}</a>{% endif %}
+        </div>
+    </header>
+
+    {% if work %}
+    <section>
+        <h2>Work Experience</h2>
+        {% for job in work %}
+        <div class="subheading">
+            <h3>{{ job.position }} at {{ job.company }}</h3>
+            <span class="subinfo">{{ job.startDate }} – {{ job.endDate }}</span>
+        </div>
+        {% if job.summary %}<p>{{ job.summary }}</p>{% endif %}
+        {% if job.highlights %}
+        <ul>
+            {% for highlight in job.highlights %}
+            <li>{{ highlight }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if projects %}
+    <section>
+        <h2>Projects</h2>
+        {% for project in projects %}
+        <div class="project-title">
+            <h3>{% if project.url %}<a href="{{ project.url }}">{{ project.name }}</a>{% else %}{{ project.name }}{% endif %}</h3>
+        </div>
+        {% if project.description %}<div class="project-subtitle">{{ project.description }}</div>{% endif %}
+        {% if project.highlights %}
+        <ul>
+            {% for highlight in project.highlights %}
+            <li>{{ highlight }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if education %}
+    <section>
+        <h2>Education</h2>
+        {% for edu in education %}
+        <div class="subheading">
+            <h3>{{ edu.institution }}</h3>
+            <span class="subinfo">{{ edu.endDate }}</span>
+        </div>
+        <ul>
+            <li>{{ edu.studyType }}, {{ edu.area }}</li>
+            {% if edu.gpa %}<li>GPA: {{ edu.gpa }}</li>{% endif %}
+        </ul>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if skills %}
+    <section>
+        <h2>Technical Skills</h2>
+        <div class="skills">
+            {% for skill_type in skills %}
+            <b>{{ skill_type.name }}:</b> {{ skill_type.keywords | join(', ') }}<br>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if awards %}
+    <section>
+        <h2>Awards & Honors</h2>
+        <ul>
+            {% for award in awards %}
+            <li>{{ award.title }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+</body>
+</html>
