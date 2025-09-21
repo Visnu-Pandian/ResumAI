@@ -5,13 +5,16 @@ import time
 import logging
 from google import genai
 from google.genai import types
+from dotenv import load_dotenv
 
 # set logs
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 # initialize Gemini API client
-client = genai.Client(api_key="AIzaSyCC7PnYgOd8CAxv8jdVDKNw4gMML53-bPM")
+load_dotenv()
+API_KEY = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=API_KEY)
 
 # json files directory(adjustable)
 json_dir = '.'  # current directory
@@ -31,7 +34,7 @@ def load_json_files():
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 all_data.append(data)
-                print(f"\n内容 of {file}:")
+                print(f"\ncontent of {file}:")
                 print(json.dumps(data, indent=2, ensure_ascii=False))
         except json.JSONDecodeError:
             logger.error(f"Failed to parse JSON file: {file}")
@@ -94,8 +97,8 @@ def main():
         new_file = f"merged_resume_{timestamp}.json"
         with open(new_file, 'w', encoding='utf-8') as f:
             json.dump(merged_data, f, indent=2, ensure_ascii=False)
-        print(f"\n生成的唯一新 JSON 文件: {new_file}")
-        print("合并结果:")
+        print(f"\ngenerate the only new JSON file: {new_file}")
+        print("merge result:")
         print(json.dumps(merged_data, indent=2, ensure_ascii=False))
     except json.JSONDecodeError:
         logger.error("Gemini response is not valid JSON.")
