@@ -29,8 +29,9 @@
             const userInput = document.getElementById('userInput');
 
             // Gemini API configuration
-            const API_PROXY_URL = '/api/chat';
-            
+            import { GoogleGenAI } from "@google/genai";
+            const ai = new GoogleGenAI({});
+
             // Add a conditional welcome message depending on whether the user passed a file to the previous webpage or used the skip button 
             const urlParams = new URLSearchParams(window.location.search);
             const resumeUploaded = urlParams.get('resume');
@@ -38,7 +39,7 @@
             if (resumeUploaded === 'true') {
                 addMessage('gemini', 'Thanks for uploading your resume! How can I help you improve it or prepare for interviews?');
             } else {
-                addMessage('gemini', 'Welcome! You can ask me anything about career advice. How can I assist you today?')
+                addMessage('gemini', 'Welcome! I noticed you have not uploaded your resume. Please tell me more about yourself so I can help you.')
             }
 
             chatForm.addEventListener('submit', async (e) => {
@@ -77,10 +78,6 @@
             */
 
             async function getGeminiResponse(prompt) {
-                if (!API_KEY) {
-                    addMessage('gemini', 'Error: API Key is missing. Please add your Gemini API key in chat.html.');
-                    return;
-                }
                 
                 const typingIndicator = addMessage('gemini', 'Typing...', 'typing');
 
@@ -89,12 +86,9 @@
                         prompt: prompt
                     };
 
-                    const response = await fetch(API_PROXY_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type:': 'application/json',
-                        },
-                        body: JSON.stringify(payload),
+                    const response = await ai.models.generateContant({
+                        model: "gemini-2.5-flash",
+                        contents: prompt
                     });
 
                     if (!response.ok) {
@@ -103,13 +97,13 @@
                         throw new Error(errorResult.error || `Server Error: ${response.status}`);
                     }
 
-                    const result = await response.json();
+                    const result = await response.text;
 
                     chatMessages.removeChild(typingIndicator);
 
                     const candidate = result.candidates?.[0];
                     if (candidate && candidate.content?.parts?[0]?.text) {
-                        addMesssage('gemini', candidate.content.parts[0].text);
+                        addMesssage('gemini', response.text);
                     } else {
                         const errorMessage = result.error || 'Sorry, I could not process that. Please try again.';
                         addMessage('gemini', errorMessage);

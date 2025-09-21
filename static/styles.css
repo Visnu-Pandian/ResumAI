@@ -1,6 +1,16 @@
+:root {
+    --terminal-color: rgba(26, 26, 26, 1);
+    --border-color: rgba(74, 74, 74, 1);
+    --text-color: rgba(224, 224, 224, 1);
+    --user-color: rgba(129, 199, 132, 1);
+    --gemini-color: rgba(100, 181, 246, 1);
+    --input-color: rgba(74, 74, 74, 1);
+    --primary-brand-color: rgba(0, 59, 136, 1);
+    --secondary-brand-color: rgba(193, 143, 50, 1);
+}
+
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #e0e0e0;
     background-image: url("/static/assets/background.png");
     background-size: cover;
     background-position: center;
@@ -11,18 +21,20 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 #typewriter {
     display: inline;
+    color: var(--secondary-brand-color);
 }
 
 /* index.html elements */
 
 .container {
-    background-color: #fff;
+    background-color: var(--text-color);
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
     overflow: hidden;
     width: 400px;
     max-width: 100%;
@@ -45,7 +57,7 @@ body {
 }
 
 header {
-    background: rgba(0, 59, 136);
+    background: rgba(0, 59, 136, 1);
     color: #FCC7A4;
     padding: 20px;
     text-align: center;
