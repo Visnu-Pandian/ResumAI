@@ -125,7 +125,7 @@ def create_resume_template(style_name="modern_two_column"):
     Generates an HTML resume template using the Gemini API.
     The CSS is pulled from the internal CSS_TEMPLATES dictionary.
     """
-    try:
+    try:  
         # 1. Read the input JSON file
         json_content = Path(INPUT_JSON_PATH).read_text()
         print(f"✅ Read JSON data. Using '{style_name}' template.")
