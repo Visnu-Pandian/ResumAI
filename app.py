@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-import os, shutil, webbrowser
+import os, shutil, webbrowser, fitz, docx
 import google.generativeai as genai
 from dotenv import load_dotenv
 
@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 app.config['DOWNLOAD_FOLDER'] = 'downloads'
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'doc', 'docx'}
+app.config['ALLOWED_EXTENSIONS'] = {'pdf','docx'}
 app.config['JSON_FOLDER'] = 'json'
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
