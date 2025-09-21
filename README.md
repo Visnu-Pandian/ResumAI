@@ -53,7 +53,7 @@ Follow these instructions to set up and run the backend services locally.
 - An active Google Gemini API Key.
 
 
-3. Installation
+3. ⬇️ Installation
 
 ```bash
 # 1. Clone the Repository
@@ -70,9 +70,12 @@ source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 pip install -r requirements.txt
 
 ```
+4. Environment Variables
 
+Create a file named `.env` in the root of the project and add your own Google Gemini API key
+The application will read this key to authenticate with the Google API. The `.env` file is included in `.gitignore` to ensure your key remains private.
 
-4. Reunning the Application
+5. Reunning the Application
 
 The backend operates in a three-stage pipeline. Run the scripts in this order:
 
@@ -86,7 +89,7 @@ The backend operates in a three-stage pipeline. Run the scripts in this order:
 `python generate_resume.py`
 
 
-## Challenges we ran into
+## 💥 Challenges we ran into
 
 ### Back End
 
@@ -105,7 +108,7 @@ The backend operates in a three-stage pipeline. Run the scripts in this order:
 ### Front End
 
 
-What's Next
+## ☀️ What's Next
 
   - UI for Template Customization: Allow users to fine-tune spacing, fonts, and colors directly in the UI.
 
@@ -113,7 +116,7 @@ What's Next
 
   - Mock Interview Feature: After generating a resume, offer users a mock interview session based on their new resume content.
 
-## Team Members
+## 🔥 Team Members
 
 - Irisin - Back end - [github.com/Irisiiin](github.com/Irisiiin)
 
