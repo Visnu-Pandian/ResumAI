@@ -1,29 +1,32 @@
-# %%
+
 import json
 import os
 import time
 import logging
 from google import genai
 from google.genai import types
+from dotenv import load_dotenv
 
-# 设置日志
+# set logs
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# 初始化 Gemini API 客户端
-client = genai.Client(api_key="AIzaSyCC7PnYgOd8CAxv8jdVDKNw4gMML53-bPM")
+# initialize Gemini API client
+load_dotenv()
+API_KEY = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=API_KEY)
 
-# JSON 文件目录（可调整）
-json_dir = '.'  # 当前目录
+# json files directory(adjustable)
+json_dir = '.'  # current directory
 
 def load_json_files():
-    """读取所有 JSON 文件，按时间排序（新文件优先）"""
+    """Read all JSON files and sort them by time (new files take priority)"""
     json_files = sorted(
         [f for f in os.listdir(json_dir) if f.endswith('.json') and (f.startswith('text_response_') or f.startswith('pdf_response_'))],
         key=lambda f: os.path.getmtime(os.path.join(json_dir, f))
     )
     
-    print("读取的 JSON 文件列表（按生成顺序，从旧到新）：")
+    print("List of read JSON files (in the order of generation, from old to new) :")
     all_data = []
     for file in json_files:
         file_path = os.path.join(json_dir, file)
@@ -31,7 +34,7 @@ def load_json_files():
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 all_data.append(data)
-                print(f"\n内容 of {file}:")
+                print(f"\ncontent of {file}:")
                 print(json.dumps(data, indent=2, ensure_ascii=False))
         except json.JSONDecodeError:
             logger.error(f"Failed to parse JSON file: {file}")
@@ -40,7 +43,7 @@ def load_json_files():
     return json_files, all_data
 
 def merge_json_with_gemini(all_data):
-    """使用 Gemini API 合并 JSON 数据"""
+    """Merging JSON Data using Gemini API"""
     prompt = f"""
 You are a JSON merger expert. Merge the following JSON data list into a single unique JSON object.
 
@@ -75,27 +78,27 @@ JSON Data List:
 def main():
     print("JSON Merger: Combine session history into a single resume JSON.")
     
-    # 加载 JSON 文件
+    # load json files
     json_files, all_data = load_json_files()
     if not all_data:
         print("No valid JSON files found. Please run the resume assistant first.")
         return
     
-    # 合并 JSON
+    # merge JSON
     merged_json_str = merge_json_with_gemini(all_data)
     if not merged_json_str:
         print("Failed to merge JSON. Check API key or input data.")
         return
     
-    # 解析并保存合并结果
+    #resolve and save the merged result
     try:
         merged_data = json.loads(merged_json_str)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         new_file = f"merged_resume_{timestamp}.json"
         with open(new_file, 'w', encoding='utf-8') as f:
             json.dump(merged_data, f, indent=2, ensure_ascii=False)
-        print(f"\n生成的唯一新 JSON 文件: {new_file}")
-        print("合并结果:")
+        print(f"\ngenerate the only new JSON file: {new_file}")
+        print("merge result:")
         print(json.dumps(merged_data, indent=2, ensure_ascii=False))
     except json.JSONDecodeError:
         logger.error("Gemini response is not valid JSON.")
@@ -105,4 +108,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-# %%

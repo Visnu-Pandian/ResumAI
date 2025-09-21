@@ -1,8 +1,5 @@
 
-    
-    
-    
-# %%
+
 from google import genai
 from google.genai import types
 import pathlib
@@ -10,14 +7,18 @@ import json
 import os
 import time
 import logging
+from detenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Setting logs
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 # initial client
-client = genai.Client(api_key="AIzaSyCC7PnYgOd8CAxv8jdVDKNw4gMML53-bPM")
-
+client = genai.Client(api_key=API_KEY)
 # create chatting session
 chat = client.chats.create(
     model="gemini-2.5-flash",
