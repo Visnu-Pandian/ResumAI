@@ -1,4 +1,3 @@
-# %%
 # -*- coding: utf-8 -*-
 
 import json
@@ -7,13 +6,17 @@ from weasyprint import HTML
 from pathlib import Path
 from google import genai
 from google.genai import types
+from dotenv import load_dotenv
+import os
 
 MODEL_NAME = "gemini-2.5-flash"
 # Here is the input of merged json file. 
 INPUT_JSON_PATH = "converted_resume.json"
 OUTPUT_HTML_PATH = "resume_template.html"
 
-API_KEY ="AIzaSyA1Cyxe9PgkWfHwrhJxNpR-7yt9Kk5iRH4" 
+load_dotenv()
+API_KEY = os.getenv("GEMINI_API_KEY")
+
 
 CSS_TEMPLATES = {
     "classic_single_column": """
