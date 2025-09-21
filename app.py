@@ -1,8 +1,7 @@
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory
-import os, shutil, json, webbrowser, requests
-from datetime import datetime
-from google import genai
+from flask import Flask, render_template, request, jsonify
+import os, shutil, webbrowser
+import google.generativeai as genai
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -22,6 +21,12 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 # URL of project
 # URL = "http://resum.ai/"
 URL = "http://127.0.0.1:5000/"
+
+# Configure the Gemini API client
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+else:
+    print("Warning: GEMINI_API_KEY not found in environment variables.")
 
 # Configure allowed filetypes
 def allowed_file(filename):
@@ -66,7 +71,7 @@ def index():
 
 @app.route('/chat')
 def char():
-    """Renders the Gemini chat page."""
+    """Renders the Gemini chat terminal page."""
     resume_uploaded = request.args.get('resume', 'false')
     return render_template('chat.html', resume=resume_uploaded)
 
@@ -90,6 +95,24 @@ def upload_file():
         return jsonify({'success':True})
     else:
         return jsonify({'success': False, 'error': 'File type not allowed'}), 400
+
+@app.route('/api/chat', methods=['POST'])
+def handle_chat():
+    """Handles the chat request to the Gemini API."""
+    data = request.get_json()
+    user_message = data.get('message')
+    
+    if not user_message:
+        return jsonify({'error': 'No message provided'}), 400
+    
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content(user_message)
+        gemini_response = response.text
+        return jsonify({'gemini_response': gemini_response})
+    except Exception as e:
+        print(f"Error calling Gemini API: {e}")
+        return jsonify({'error':'An error occurred while fetching the response from Gemini.'}), 500
 
 # --- Main Execution ---
 
