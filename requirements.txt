@@ -1,5 +1,0 @@
-# requirements.txt
-googe-genai
-jinja2
-weasyprint
-python-dotenv
